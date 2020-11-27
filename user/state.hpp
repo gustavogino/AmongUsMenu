@@ -76,6 +76,10 @@ public:
 
 	bool Wallhack = false;
 	bool FreeCam = false;
+	float FreeCamSpeed = 1.f;
+
+	bool FollowPlayer = false;
+	PlayerControl PlayerToFollow;
 
 	Vector3 camPos = { NULL, NULL, NULL };
 	Vector3 prevCamPos = { NULL, NULL, NULL };

@@ -5,7 +5,14 @@ namespace SelfTab {
 		if (ImGui::BeginTabItem("Self")) {
 			ImGui::Checkbox("Max Vision", &State.MaxVision);
 			ImGui::Checkbox("Wallhack", &State.Wallhack);
-			ImGui::Checkbox("Freecam", &State.FreeCam);
+
+			if (ImGui::Checkbox("Freecam", &State.FreeCam))
+			{
+				State.FollowPlayer = false;
+				State.PlayerToFollow = **Game::pLocalPlayer;
+			}
+
+			SteppedSliderFloat("Freecam Speed", &State.FreeCamSpeed, 0.5f, 3.f, 0.25f, "%.2fx", ImGuiSliderFlags_Logarithmic | ImGuiSliderFlags_NoInput);
 
 			if (ImGui::Checkbox("No Clip", &State.NoClip)) {
 				if (!IsInGame()) State.NoClip = false;

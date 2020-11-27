@@ -29,7 +29,7 @@ void dPlayerControl_FixedUpdate(PlayerControl* __this, MethodInfo* method) {
 		else
 			nameText->fields.Color = Palette__TypeInfo->static_fields->White;
 
-		if (State.Wallhack && __this == *Game::pLocalPlayer && !State.FreeCam) {
+		if (State.Wallhack && __this == *Game::pLocalPlayer && !State.FreeCam && !State.FollowPlayer) {
 			auto mainCamera = Camera_get_main(NULL);
 
 			Transform* cameraTransform = Component_get_transform((Component*)mainCamera, NULL);
@@ -65,21 +65,31 @@ void dPlayerControl_FixedUpdate(PlayerControl* __this, MethodInfo* method) {
 			if (GetKeyboardState(arr))
 			{
 				if ((arr[0x57] & 0x80) != 0) {
-					State.camPos.y = State.camPos.y + 0.1f;
+					State.camPos.y = State.camPos.y + (0.1f * State.FreeCamSpeed);
 				}
 				if ((arr[0x41] & 0x80) != 0) {
-					State.camPos.x = State.camPos.x - 0.1f;
+					State.camPos.x = State.camPos.x - (0.1f * State.FreeCamSpeed);
 				}
 				if ((arr[0x53] & 0x80) != 0) {
-					State.camPos.y = State.camPos.y - 0.1f;
+					State.camPos.y = State.camPos.y - (0.1f * State.FreeCamSpeed);
 				}
 				if ((arr[0x44] & 0x80) != 0) 
 				{
-					State.camPos.x = State.camPos.x + 0.1f;
+					State.camPos.x = State.camPos.x + (0.1f * State.FreeCamSpeed);
 				}
 			}
 			
 			Transform_set_position(cameraTransform, { State.camPos.x, State.camPos.y, 100 }, NULL);
+		}
+
+		if (State.FollowPlayer && __this == *Game::pLocalPlayer)
+		{
+			auto mainCamera = Camera_get_main(NULL);
+
+			Transform* cameraTransform = Component_get_transform((Component*)mainCamera, NULL);
+			Vector3 cameraVector3 = Transform_get_position(cameraTransform, NULL);
+
+			Transform_set_position(cameraTransform, { PlayerControl_GetTruePosition(&State.PlayerToFollow, NULL).x, PlayerControl_GetTruePosition(&State.PlayerToFollow, NULL).y, 100 }, NULL);
 		}
 
 		// TODO: Improve performance

@@ -47,6 +47,27 @@ namespace PlayersTab {
 							PlayerControl_CmdReportDeadBody(*Game::pLocalPlayer, GetPlayerData(State.selectedPlayer), NULL);
 						}
 					}
+
+					if (State.selectedPlayerId > -1 && State.selectedPlayer != *Game::pLocalPlayer)
+					{
+						if (State.selectedPlayer->fields.PlayerId != State.PlayerToFollow.fields.PlayerId)
+						{
+							if (ImGui::Button("Spectate"))
+							{
+								State.FreeCam = false;
+								State.PlayerToFollow = *State.selectedPlayer;
+								State.FollowPlayer = true;
+							}
+						}
+						else
+						{
+							if (ImGui::Button("Stop Spectating"))
+							{
+								State.FollowPlayer = false;
+								State.PlayerToFollow = **Game::pLocalPlayer;
+							}
+						}
+					}
 				}
 				
 				if (State.selectedPlayerId > -1 && State.selectedPlayer != *Game::pLocalPlayer) {
