@@ -1,5 +1,7 @@
 #include "_hooks.hpp"
 
+
+
 void dKeyboardJoystick_Update(KeyboardJoystick* __this, MethodInfo* method) {
 	if (IsInGame()) {
 		if (!State.rpcQueue.empty()) {
@@ -10,6 +12,7 @@ void dKeyboardJoystick_Update(KeyboardJoystick* __this, MethodInfo* method) {
 			delete rpc;
 		}
 	}
-
-	app::KeyboardJoystick_Update(__this, method);
+	if (!State.FreeCam) {
+		app::KeyboardJoystick_Update(__this, method);
+	}
 }

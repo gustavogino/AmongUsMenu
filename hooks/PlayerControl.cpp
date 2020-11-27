@@ -29,12 +29,57 @@ void dPlayerControl_FixedUpdate(PlayerControl* __this, MethodInfo* method) {
 		else
 			nameText->fields.Color = Palette__TypeInfo->static_fields->White;
 
-		if (State.Wallhack && __this == *Game::pLocalPlayer) {
+		if (State.Wallhack && __this == *Game::pLocalPlayer && !State.FreeCam) {
 			auto mainCamera = Camera_get_main(NULL);
 
 			Transform* cameraTransform = Component_get_transform((Component*)mainCamera, NULL);
 			Vector3 cameraVector3 = Transform_get_position(cameraTransform, NULL);
 			Transform_set_position(cameraTransform, { cameraVector3.x, cameraVector3.y, 100}, NULL);
+		}
+
+		if (!State.FreeCam  && __this == *Game::pLocalPlayer && State.prevCamPos.x != NULL) {
+			auto mainCamera = Camera_get_main(NULL);
+
+			Transform* cameraTransform = Component_get_transform((Component*)mainCamera, NULL);
+			Vector3 cameraVector3 = Transform_get_position(cameraTransform, NULL);
+			Transform_set_position(cameraTransform, State.prevCamPos, NULL);
+
+			State.camPos = { NULL, NULL, NULL };
+			State.prevCamPos = { NULL, NULL, NULL };
+		}
+
+		if (State.FreeCam  && __this == *Game::pLocalPlayer) {
+			auto mainCamera = Camera_get_main(NULL);
+
+			Transform* cameraTransform = Component_get_transform((Component*)mainCamera, NULL);
+			Vector3 cameraVector3 = Transform_get_position(cameraTransform, NULL);
+
+			if (State.camPos.x == NULL) {
+				State.camPos = cameraVector3;
+			}
+			if (State.prevCamPos.x == NULL) {
+				State.prevCamPos = cameraVector3;
+			}
+
+			BYTE arr[256];
+			if (GetKeyboardState(arr))
+			{
+				if ((arr[0x57] & 0x80) != 0) {
+					State.camPos.y = State.camPos.y + 0.1f;
+				}
+				if ((arr[0x41] & 0x80) != 0) {
+					State.camPos.x = State.camPos.x - 0.1f;
+				}
+				if ((arr[0x53] & 0x80) != 0) {
+					State.camPos.y = State.camPos.y - 0.1f;
+				}
+				if ((arr[0x44] & 0x80) != 0) 
+				{
+					State.camPos.x = State.camPos.x + 0.1f;
+				}
+			}
+			
+			Transform_set_position(cameraTransform, { State.camPos.x, State.camPos.y, 100 }, NULL);
 		}
 
 		// TODO: Improve performance

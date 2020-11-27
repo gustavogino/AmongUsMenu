@@ -75,6 +75,10 @@ public:
 	int impostors_amount = 0;
 
 	bool Wallhack = false;
+	bool FreeCam = false;
+
+	Vector3 camPos = { NULL, NULL, NULL };
+	Vector3 prevCamPos = { NULL, NULL, NULL };
 
 	void Load();
 	void Save();

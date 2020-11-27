@@ -5,6 +5,7 @@ namespace SelfTab {
 		if (ImGui::BeginTabItem("Self")) {
 			ImGui::Checkbox("Max Vision", &State.MaxVision);
 			ImGui::Checkbox("Wallhack", &State.Wallhack);
+			ImGui::Checkbox("Freecam", &State.FreeCam);
 
 			if (ImGui::Checkbox("No Clip", &State.NoClip)) {
 				if (!IsInGame()) State.NoClip = false;
