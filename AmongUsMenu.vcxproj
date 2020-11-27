@@ -232,7 +232,7 @@
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)resources $(OutDir)resources /e /i /h /y</Command>
+      <Command>xcopy "$(ProjectDir)resources" "$(OutDir)resources" /e /i /h /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Xinput|Win32'">
@@ -264,7 +264,7 @@
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)resources $(OutDir)resources /e /i /h /y</Command>
+      <Command>xcopy "$(ProjectDir)resources" "$(OutDir)resources" /e /i /h /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -300,7 +300,7 @@
       <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)resources $(OutDir)resources /e /i /h /y</Command>
+      <Command>xcopy "$(ProjectDir)resources" "$(OutDir)resources" /e /i /h /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Xinput|Win32'">
@@ -336,7 +336,7 @@
       <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)resources $(OutDir)resources /e /i /h /y</Command>
+      <Command>xcopy "$(ProjectDir)resources" "$(OutDir)resources" /e /i /h /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
